@@ -1,9 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-guard.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorators';
+import { UserRole } from 'src/common/enums/roles.enum';
 
 @Controller('feedback')
+@UseGuards( JwtAuthGuard, RolesGuard)
+@Roles(UserRole.DEVELOPER)
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 

@@ -12,12 +12,12 @@ interface JwtPayload {
 }
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy){
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt'){
     constructor(private readonly config: ConfigService){
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: config.get('JWT_SECRET_PASSWORD') || 'default_secret',
+            secretOrKey: config.get<string>('JWT_SECRET_PASSWORD')!,
         });
     }
 

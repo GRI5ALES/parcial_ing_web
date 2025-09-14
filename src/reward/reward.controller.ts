@@ -1,9 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { RewardService } from './reward.service';
 import { CreateRewardDto } from './dto/create-reward.dto';
 import { UpdateRewardDto } from './dto/update-reward.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-guard.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorators';
+import { UserRole } from 'src/common/enums/roles.enum';
 
 @Controller('reward')
+@UseGuards( JwtAuthGuard, RolesGuard,)
+@Roles(UserRole.ADMIN)
 export class RewardController {
   constructor(private readonly rewardService: RewardService) {}
 

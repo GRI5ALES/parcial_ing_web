@@ -5,5 +5,5 @@ export class CreateFeedbackDto {
     message: string;
 
     @IsString()
-    athor: string;
+    author: string;
 }
